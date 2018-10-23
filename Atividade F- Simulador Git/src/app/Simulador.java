@@ -21,8 +21,12 @@ public class Simulador {
 		repositorio1.adicionarArquivos(arquivo1);
 		repositorio2.adicionarArquivos(arquivo2);
 		repositorio1.buscarArquivo(arquivo1);
-		Servicos.listarRepositorios();
-		repositorio1.removerArquivosTracked(arquivo1);
+		
+		
+		repositorio1.editarArquivo();
+		repositorio1.editarArquivo();
+		repositorio1.mostrarConteudo();
+		
 		repositorio2.buscarArquivo(arquivo2);
 		
 		

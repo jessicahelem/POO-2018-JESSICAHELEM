@@ -13,6 +13,8 @@ public class Repositorio {
 	public ArrayList<Mudancas>mudancas;
 	public ArrayList<Commits>commits;
 	public boolean arquivoModificado=true;
+	public static boolean untrackedFile=true;
+	public String conteudo=" ";
 
 public Repositorio(String nome) {
 	this.nome=nome;
@@ -33,7 +35,16 @@ public void adicionarArquivos(Arquivo file) {
 			
 }
 	
-
+public void editarArquivo() {
+	
+	conteudo="nova linha"+"\n";
+	untrackedFile=false;
+	JOptionPane.showMessageDialog(null, "Arquivo editado com sucesso!");
+	
+}
+public void mostrarConteudo() {
+	JOptionPane.showMessageDialog(null," "+conteudo);
+}
 
 public void removerArquivosUntracked(Arquivo file) {
 	for (int i = 0;i<untrackedFiles.size();i++) {
