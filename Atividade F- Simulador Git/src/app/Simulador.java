@@ -6,30 +6,61 @@ import javax.swing.JOptionPane;
 
 import model.Arquivo;
 import model.Repositorio;
-import negocios.Servicos;
+import negocios.Servidor;
 
 public class Simulador {
 	public static void main(String[]args) {
 		
-		Repositorio repositorio1 =new Repositorio("Repositorio 1");
-		Repositorio repositorio2 =new Repositorio("Repositorio 2");
-		Arquivo arquivo1 = new Arquivo("arquivo.txt");
-		Arquivo arquivo2= new Arquivo("Arquivo2.txt");
 		
 		
 		
-		repositorio1.adicionarArquivos(arquivo1);
-		repositorio2.adicionarArquivos(arquivo2);
-		repositorio1.buscarArquivo(arquivo1);
 		
 		
-		repositorio1.editarArquivo();
-		repositorio1.editarArquivo();
-		repositorio1.mostrarConteudo();
+	Servidor servidor= new Servidor();
+	
+	
+	int op= Integer.valueOf(JOptionPane.showInputDialog(servidor.menuPrincipal())); 
+	
+	while(op!=0) {
+		if (op==1) {
+			String nomeRepositorio = JOptionPane.showInputDialog("Insira o nome do seu repositório: ");
+			String  descricao= JOptionPane.showInputDialog("Insira uma descrição no repositorio: ");
+			servidor.repositorios.add(new Repositorio(nomeRepositorio,descricao));
+			JOptionPane.showMessageDialog(null, "Repositorio: " + nomeRepositorio+"\nDescricao: "+descricao +"\nRepostório criado com sucesso!");
+			 op= Integer.valueOf(JOptionPane.showInputDialog(servidor.menuPrincipal())); 
+		}
+		else if(op==2) {
+			String nomeRep =  JOptionPane.showInputDialog("Insira o nome do seu repositório: ");
+			if (nomeRep==null )
+			servidor.abirRepositorio(nomeRep);
+			 op= Integer.valueOf(JOptionPane.showInputDialog(servidor.menuPrincipal())); 
+			 
+		}
+
 		
-		repositorio2.buscarArquivo(arquivo2);
-		
-		
+		else if (op==3) {
+			servidor.listarRepositorios();
+			op= Integer.valueOf(JOptionPane.showInputDialog(servidor.menuPrincipal()));
+		}
+		else if(op==0) {
+			break;
+		}
+		}
+	int op2=Integer.valueOf(JOptionPane.showInputDialog(servidor.menuArquivo())); 
+	while(op2!=0) {
+		if(op==1) {
+			
+			String nomeArquivo= JOptionPane.showInputDialog("Insira o nome do seu repositório: ");
+			
+			JOptionPane.showMessageDialog(null, "Arquivo adicionado com sucesso!");
+			
+		}
 		
 	}
+	}
 }
+		
+		
+		
+	
+

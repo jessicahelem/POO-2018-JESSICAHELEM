@@ -7,22 +7,21 @@ import javax.swing.JOptionPane;
 public class Repositorio {
 
 	public String nome;
-	public ArrayList<Arquivo>untrackedFiles=new ArrayList<Arquivo>();
+	public String descricao;
+	public static ArrayList<Arquivo>untrackedFiles=new ArrayList<Arquivo>();
 	public ArrayList<Arquivo>trackedFiles=new ArrayList<Arquivo>();
 	public ArrayList<Arquivo>stageArea=new ArrayList<Arquivo>();
-	public ArrayList<Mudancas>mudancas;
-	public ArrayList<Commits>commits;
-	public boolean arquivoModificado=true;
-	public static boolean untrackedFile=true;
-	public String conteudo=" ";
-
-public Repositorio(String nome) {
+	public ArrayList<Commits>commits=new ArrayList<Commits>();
+	private boolean arquivoModificado;
+	
+public Repositorio(String nome,String descricao) {
 	this.nome=nome;
 	this.commits=commits;
-	this.arquivoModificado=arquivoModificado;
+	this.descricao=descricao;
 	this.trackedFiles=trackedFiles;
 	this.untrackedFiles=untrackedFiles;
 	}
+
 
 
 
@@ -35,30 +34,23 @@ public void adicionarArquivos(Arquivo file) {
 			
 }
 	
-public void editarArquivo() {
-	
-	conteudo="nova linha"+"\n";
-	untrackedFile=false;
-	JOptionPane.showMessageDialog(null, "Arquivo editado com sucesso!");
-	
-}
-public void mostrarConteudo() {
-	JOptionPane.showMessageDialog(null," "+conteudo);
-}
+
 
 public void removerArquivosUntracked(Arquivo file) {
 	for (int i = 0;i<untrackedFiles.size();i++) {
-		if (untrackedFiles.get(i).getNome().equals(file.getNome())) {
+		if (untrackedFiles.contains(file)) {
 			untrackedFiles.remove(file);
 			JOptionPane.showMessageDialog(null,"Arquivo removido com sucesso!");
 			
+		}else {
+			JOptionPane.showMessageDialog(null, "Arquivo não encontrado.");
 		}
 	}
 }
 
 public void removerArquivosTracked(Arquivo fileName) {
 	for (int i = 0;i<trackedFiles.size();i++) {
-		if (trackedFiles.get(i).getNome().equals(fileName.getNome())) {
+		if (trackedFiles.contains(fileName)) {
 			trackedFiles.remove(fileName);
 			JOptionPane.showMessageDialog(null,"Arquivo removido com sucesso!");
 		}else{
@@ -135,14 +127,6 @@ public void setStageArea(ArrayList<Arquivo> stageArea) {
 }
 
 
-public ArrayList<Mudancas> getMudancas() {
-	return mudancas;
-}
-
-
-public void setMudancas(ArrayList<Mudancas> mudancas) {
-	this.mudancas = mudancas;
-}
 
 
 public ArrayList<Commits> getCommits() {
@@ -156,7 +140,7 @@ public void setCommits(ArrayList<Commits> commits) {
 
 
 public boolean isArquivoModificado() {
-	return arquivoModificado;
+	return isArquivoModificado();
 }
 
 
