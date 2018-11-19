@@ -19,7 +19,7 @@ import model.Repositorio;
 			if(repositorios.get(i).nome.equals(nome))
 				return repositorios.get(i);
 		
-			
+			return null;
 }
 	
 	public void listarRepositorios() {

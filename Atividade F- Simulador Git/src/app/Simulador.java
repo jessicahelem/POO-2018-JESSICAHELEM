@@ -31,7 +31,9 @@ public class Simulador {
 		}
 		else if(op==2) {
 			String nomeRep =  JOptionPane.showInputDialog("Insira o nome do seu repositório: ");
-			if (nomeRep==null )
+			if (nomeRep==null ) {
+				
+			}
 			servidor.abirRepositorio(nomeRep);
 			 op= Integer.valueOf(JOptionPane.showInputDialog(servidor.menuPrincipal())); 
 			 
@@ -51,6 +53,7 @@ public class Simulador {
 		if(op==1) {
 			
 			String nomeArquivo= JOptionPane.showInputDialog("Insira o nome do seu repositório: ");
+			
 			
 			JOptionPane.showMessageDialog(null, "Arquivo adicionado com sucesso!");
 			
