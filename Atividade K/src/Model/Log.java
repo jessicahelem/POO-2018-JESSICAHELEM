@@ -1,5 +1,6 @@
 package Model;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
 
@@ -16,18 +17,20 @@ public class Log {
 	public String addCard() {
 		String s = "";
 		
-			s = "Card adicionado com sucesso!" +"Data: "+mostrarData();
+			s = "Card adicionado com sucesso!" +"Data: "+getDateTime();
 	
 		return s;	
 }
-	public SimpleDateFormat mostrarData() {
-		Date data = new Date(System.currentTimeMillis());  
-		SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy"); 
-		return formatarDate;
+	public String getDateTime() { 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+		Date date = new Date(0); 
+		return dateFormat.format(date); 
 	}
+	
+
 	public String addComentario() {
 		String comentario="";
-		comentario="Um comentario foi adicionado no card."+" Data: "+mostrarData();
+		comentario="Um comentario foi adicionado no card."+" Data: "+getDateTime();
 		return comentario;
 	}
 }
