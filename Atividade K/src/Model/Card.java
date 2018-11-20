@@ -16,10 +16,15 @@ public class Card {
 		this.descricao=descricao;
 		this.comentario=comentario;
 		this.status=false; 
-		this.logs=logs;
-		
-		
-		
+		this.logs=logs;		
+	}
+	
+	public Card(Card card) {
+		this.titulo= card.getTitulo();
+		this.descricao=card.getDescricao();
+		this.comentario=card.getComentario();
+		this.status=card.status; 
+		this.logs=card.getLogs();		
 	}
 
 	public boolean mudarStatus() {

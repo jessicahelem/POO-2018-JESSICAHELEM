@@ -7,10 +7,10 @@ public class Lista {
 	public ArrayList<Card>cards= new ArrayList<>();
 	public String tituloLista;
 	
-	
-		//Criador
-		//status(public, private)
+	public Lista(String titulo) {
+		this.tituloLista = titulo;
 		
+	}
 	public void	addCard(Card card){
 			cards.add(card);
 		}
@@ -38,6 +38,18 @@ public class Lista {
 	
 	public void buscarCard() {
 		
+	}
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+	public void setCards(ArrayList<Card> cards) {
+		this.cards = cards;
+	}
+	public String getTituloLista() {
+		return tituloLista;
+	}
+	public void setTituloLista(String tituloLista) {
+		this.tituloLista = tituloLista;
 	}
 	
 }
