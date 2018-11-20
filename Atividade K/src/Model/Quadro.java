@@ -2,7 +2,6 @@ package Model;
 
 import java.util.ArrayList;
 
-import model.Arquivo;
 
 public class Quadro {
 	public String tituloTema;
@@ -48,5 +47,20 @@ public class Quadro {
 			destino.getCards().add(card1);
 		}
 	}
-}
+	public String excluirLista(Lista l) {
+		for(int i = 0; i < listas.size(); i++) {
+			if(listas.contains(l)) {
+				listas.remove(l);
+				return "Lista removida com sucesso";
+			}
+			else if(!listas.contains(l))
+				return "Lista não encontrada";
+			
+		}
+		return "Operação finalizada";
+		
+	}
+		
+	}
+
 
