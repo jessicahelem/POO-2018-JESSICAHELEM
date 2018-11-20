@@ -1,10 +1,10 @@
 package App;
 
-import Negocios.controleQuadro;
+import Negocios.Processos;
 
 public class AppTrello {
 	public static void main(String[] args) {
-		controleQuadro control = new controleQuadro();
+		Processos control = new Processos();
 	}
 
 }

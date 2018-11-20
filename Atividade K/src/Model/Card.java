@@ -35,7 +35,11 @@ public class Card {
 		this.descricao=descricao;
 		//addLista(log(titulo = "O usuario Adicionou Descrição", Data))
 	}
-
+	public void editarCard(String novo) {
+		
+			this.descricao = this.descricao +"\n" + novo;
+			
+	}
 	public String getTitulo() {
 		return titulo;
 	}
