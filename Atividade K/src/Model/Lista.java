@@ -3,53 +3,45 @@ package Model;
 import java.util.ArrayList;
 
 public class Lista {
-	
-	public ArrayList<Card>cards= new ArrayList<>();
-	public String tituloLista;
-	
-	public Lista(String titulo) {
-		this.tituloLista = titulo;
-		
+	 private String titulo;
+	    private ArrayList<Card> cartoes = new ArrayList<>();
+	    private int cartaoSelecionado;
+	    
+	    public Lista(String titulo){
+	        this.titulo = titulo;
+	    }
+	    
+	    public void cadastrarCartao(Card cartao){
+	        this.cartoes.add(cartao);
+	    }
+
+	    public ArrayList<Card> getCartoes() {
+	        return cartoes;
+	    }
+	    
+	    
+	    public Card getCartaoSelecionado(){
+	        return cartoes.get(cartaoSelecionado);
+	    }
+	    
+	    
+	    public Card getCartaoPorIndiceEDeletar(int indice){
+	        Card cartao = cartoes.get(indice);
+	        cartoes.remove(indice);
+	        return cartao;
+	    }
+	    
+	    
+	    public boolean alternarCartao(int indice){
+	        if (indice < 0 || indice >= cartoes.size()){
+	            return false;
+	        }
+	        this.cartaoSelecionado = indice;
+	        return true;
+	    }
+	    
+	    
+	    public String getTitulo() {
+	        return titulo;
 	}
-	public void	addCard(Card card){
-			cards.add(card);
-		}
-	
-	public void arquivarCard(Card card) {
-		
-	}
-	public void restaurarCard(Card card) {
-		
-	}
-	public String excluirCard(Card card) {
-		for(int i = 0; i < cards.size(); i++) {
-			if(cards.contains(card)) {
-				cards.remove(card);
-				
-			}
-			else if(cards.contains(card))
-				return "Card não encontrado";
-			
-		}
-		return "Operação finalizada";
-		
-		
-	}
-	
-	public void buscarCard() {
-		
-	}
-	public ArrayList<Card> getCards() {
-		return cards;
-	}
-	public void setCards(ArrayList<Card> cards) {
-		this.cards = cards;
-	}
-	public String getTituloLista() {
-		return tituloLista;
-	}
-	public void setTituloLista(String tituloLista) {
-		this.tituloLista = tituloLista;
-	}
-	
 }

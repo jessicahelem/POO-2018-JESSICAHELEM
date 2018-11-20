@@ -4,62 +4,55 @@ import java.util.ArrayList;
 
 
 public class Quadro {
-	public String tituloTema;
-	public ArrayList<Lista>listas= new ArrayList<>();
 
+	private String titulo;
+	private ArrayList<Lista> tarefas = new ArrayList<>();
+	private int tarefaSelecionada;
 
-
-	public Quadro(String tituloTema,ArrayList<Lista>listas) {
-		this.tituloTema=tituloTema;
-		this.listas=listas;
+	public Quadro(String titulo){
+		this.titulo = titulo;
 	}
-	public void addLista(Lista lista) {
-		listas.add(lista);
 
-	}	
 
-	public Lista buscarCard(Card card) {
-		for (int i = 0; i <listas.size(); i++) {
-			if(listas.get(i).getCards().contains(card)) {
-				return listas.get(i);
-			}
+	public void cadastrarTarefa(Lista tarefa){
+		this.tarefas.add(tarefa);
+	}
+
+
+	public ArrayList<Lista> getTarefas() {
+		return tarefas;
+	}
+
+
+	public Lista getTarefaSelecionada(){
+		return tarefas.get(tarefaSelecionada);
+	}
+
+
+	public boolean alternarTarefa(int indice){
+		if (indice < 0 || indice >= tarefas.size()){
+			return false;
 		}
-		return null;
+		this.tarefaSelecionada = indice;
+		return true;
 	}
 
-	public void moverCard(Card nomeDoCard,Lista destino) {
-		//		for(int i = 0; i<listas.size();i++){
-		//			if (listas.contains(nomeDoCard)) {
-		//				for (int j=0;j<nomeDaLista.size();j++) {
-		//					nomeDaLista.add(j, nomeDoCard);
-		//			
-		Lista origem = this.buscarCard(nomeDoCard);
-		if (origem != null) {
-			int index = origem.getCards().indexOf(nomeDoCard);
-			origem.getCards().remove(index);
-			destino.getCards().add(nomeDoCard);
-		}		
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
-	public void copiarCard(Card nomeDoCard,Lista destino) {
-		Lista origem = this.buscarCard(nomeDoCard);
-		if (origem != null) {
-			Card card1 = new Card(nomeDoCard); 
-			destino.getCards().add(card1);
-		}
+
+
+	public String getTitulo() {
+		return titulo;
 	}
-	public String excluirLista(Lista l) {
-		for(int i = 0; i < listas.size(); i++) {
-			if(listas.contains(l)) {
-				listas.remove(l);
-				return "Lista removida com sucesso";
-			}
-			else if(!listas.contains(l))
-				return "Lista não encontrada";
-			
-		}
-		return "Operação finalizada";
-		
+
+
+	public void moverCartao(int tarefa, int cartao){
+		Card c = tarefas.get(tarefaSelecionada).getCartaoPorIndiceEDeletar(cartao);
+		tarefas.get(tarefa).cadastrarCartao(c);
 	}
+
 		
 	}
 

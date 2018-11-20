@@ -4,81 +4,72 @@ import java.util.ArrayList;
 
 public class Card {
 	
-	public String titulo;
-	public String descricao;
-	public ArrayList<Comentario>comentario=new ArrayList<>(); 
-	public boolean status;
-	public ArrayList<Log> logs= new ArrayList<>();
-	
-	public Card(String titulo) {
-	
-		this.titulo=titulo;
-		this.descricao=descricao;
-		this.comentario=comentario;
-		this.status=false; 
-		this.logs=logs;		
-	}
-	
-	public Card(Card card) {
-		this.titulo= card.getTitulo();
-		this.descricao=card.getDescricao();
-		this.comentario=card.getComentario();
-		this.status=card.status; 
-		this.logs=card.getLogs();		
-	}
+	 private String titulo;
+	    private String descricao;
+	    private String dataParaEntrega;
+	    private ArrayList<Comentario> comentarios = new ArrayList<>();
+	    private ArrayList<Etiquetas> etiquetas = new ArrayList<>();
+	    
+	    public Card(String titulo){
+	        this.titulo = titulo;
+	    }
+	    
+	    // metodos do Card 
+	    public void adicionarDescricao(String descricao){
+	        this.descricao = descricao;
+	    }
+	    
+	    
+	    public void adicionarDataParaEntrega(String dataParaEntrega){
+	        this.dataParaEntrega = dataParaEntrega;
+	    }
+	    
+	    
+	    public void adicionarComentario(Comentario comentario){
+	        this.comentarios.add(comentario);
+	    }
+	    
+	    
+	    public void adicionarComentario(User usuario, String titulo){
+	        Comentario comentario = new Comentario(usuario, titulo);
+	        this.comentarios.add(comentario);
+	    }
+	    
+	    
+	    public void adicionarEtiqueta(Etiquetas etiqueta){
+	        this.etiquetas.add(etiqueta);
+	    }
+	    
+	    
+	    public void adicionarEtiqueta(String titulo, String cor){
+	        Etiquetas etiqueta = new Etiquetas(titulo, cor);
+	        this.etiquetas.add(etiqueta);
+	    }
+	    
+	    
+	    public String getTitulo() {
+	        return titulo;
+	    }
 
-	public boolean mudarStatus() {
-		this.status=true;
-		return status;
-	}
-	public void addDescricao(String descricao) {
-		this.descricao=descricao;
-		//addLista(log(titulo = "O usuario Adicionou Descrição", Data))
-	}
-	public void editarCard(String novo) {
-		
-			this.descricao = this.descricao +"\n" + novo;
-			
-	}
-	public String getTitulo() {
-		return titulo;
-	}
+	    
+	    public String getDescricao() {
+	        return descricao;
+	    }
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+	    
+	    public String getDataParaEntrega() {
+	        return dataParaEntrega;
+	    }
 
-	public String getDescricao() {
-		return descricao;
-	}
+	    
+	    public ArrayList<Comentario> getComentarios() {
+	        return comentarios;
+	    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public ArrayList<Comentario> getComentario() {
-		return comentario;
-	}
-
-	public void setComentario(ArrayList<Comentario> comentario) {
-		this.comentario = comentario;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public ArrayList<Log> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(ArrayList<Log> logs) {
-		this.logs = logs;
-	}
+	    
+	    public ArrayList<Etiquetas> getEtiquetas() {
+	        return etiquetas;
+}
 	
 	
 
