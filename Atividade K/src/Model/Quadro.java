@@ -5,12 +5,16 @@ import java.util.ArrayList;
 
 public class Quadro {
 
-	private String titulo;
+	public String titulo;
 	private ArrayList<Lista> tarefas = new ArrayList<>();
 	private int tarefaSelecionada;
-
-	public Quadro(String titulo){
+	private boolean privado = true;
+	private boolean favorito = false;
+	
+	public Quadro(String titulo,boolean privado){
 		this.titulo = titulo;
+		this.privado=privado;
+		this.favorito=favorito;
 	}
 
 
@@ -23,7 +27,12 @@ public class Quadro {
 		return tarefas;
 	}
 
-
+	public void alterarPrivacidade() {
+		this.privado=false;
+	}
+	public void alterarFavorito() {
+		this.favorito=true;
+	}
 	public Lista getTarefaSelecionada(){
 		return tarefas.get(tarefaSelecionada);
 	}

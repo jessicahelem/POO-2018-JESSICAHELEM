@@ -1,6 +1,9 @@
 package Negocios;
 
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
 import Model.User;
 import Model.Quadro;
@@ -14,10 +17,19 @@ import Model.Lista;
 
 public class Processos {
 	  /* Variaveis */
+	public Quadro quadro;
+	public ArrayList<Quadro> quadros = new ArrayList();
     private ArrayList<User> usuarios = new ArrayList<>();
     private int usuarioSelecionado = 0;
+   public boolean statusLogar = false;
     
-    
+    public Quadro getQuadro(String nome) {
+    	for(int i = 0; i < quadros.size();i++)
+			if(quadros.get(i).titulo.equals(nome))
+				return quadros.get(i);
+		
+			return null;
+    }
     public boolean cadastrarUsuario(String nome, String login, String senha){
         if (nome.trim().length() == 0 || login.trim().length() == 0 || senha.trim().length() == 0) {
             return false;
@@ -35,8 +47,57 @@ public class Processos {
         this.usuarioSelecionado = indice;
         return true;
     }
-    
-    
+    public String menu1() {
+    	if (!statusLogar) {
+	return "SEJA BEM VINDO - TRELLO \n"
+           	 + "1 - Login\n"
+             + "2 - Cadastrar Usuario\n"
+             + "3 - Logoff";}
+		return null;
+		
+    	
+    }
+    public String menu2() {
+    	
+		return "OPÇÕES PARA QUADROS \n"
+           	 + "1 - Cadastrar Nova Lista/Tarefa\n"
+             + "2 - Meus Quadros - Listar Quadros\n"
+             + "3 - Selecionar um Quadro\n"
+             + "0 - Finalizar";
+    }
+    public String menu3() {
+    	
+		return "OPÇÕES PARA LISTA/TAREFA \n"
+                 + "1 -  Adicionar uma Lista/Tarefa \n"
+                 + "2 -  Mostrar Minhas Listas/Tarefas\n"      
+                 + "3 -  Selecionar uma Lista/Tarefa \n"
+                 + "0 - Finalizar";
+                  
+        
+    }
+    public String menu4() {
+    	return "OPÇÕES PARA CARDS \n"
+                 + "1 -  Adicionar Card\n"
+                 + "2 -  Listar Cards\n"      
+                 + "3 -  Selecionar Cards\n"
+                 + "0 - Finalizar";
+    }
+    public String menu5() {
+    	return "OPÇÕES PARA UM CARD \n"
+                + "1 - Adicionar descrição ao card\n"
+                + "2 - Adicionar data de entrega ao cartao\n"
+                + "3 - Adicionar comentario ao cartao\n"
+                + "4 - Adicionar etiqueta ao cartao\n"
+                + "5 - Mover Card para outra Lista/Tarefa\n"
+                + "0 - Finalizar";
+    }
+    public void listarQuadros(Processos processo ){
+     
+      for (int i = 0; i < processo.quadros.size(); i++){
+            JOptionPane.showInputDialog(null,"%d -"+ i+1 + "\n%s"+ processo.quadros.get(i).getTitulo());
+        }
+    }
+
     public boolean login(String login, String senha){
         for (int i = 0; i < usuarios.size(); i++){
             if (usuarios.get(i).login(login, senha)){
@@ -46,8 +107,8 @@ public class Processos {
         }
         return false;
     }
-
-    
+  
+   
     public ArrayList<User> getUsuariosCadastrados() {
         return usuarios;
     }
@@ -58,11 +119,11 @@ public class Processos {
     }
     
     
-    public boolean cadastrarQuadro(String titulo){
+    public boolean cadastrarQuadro(String titulo,boolean privacidade){
         if (titulo.trim().length() == 0){
             return false;
         }
-        Quadro quadro = new Quadro(titulo);
+        Quadro quadro = new Quadro(titulo,privacidade);
         usuarios.get(usuarioSelecionado).cadastrarNovoQuadro(quadro);
         return true;
     }
@@ -96,9 +157,26 @@ public class Processos {
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().cadastrarTarefa(lista);
         return true;
     }
-    
-    
-    public ArrayList<Lista> getTarefasCadastradas(){
+   public String listarQuadros(){
+        
+        String mostrarQuadros = "";
+        if (!quadros.isEmpty()){
+        	for (int i = 0; i < quadros.size(); i++){
+                mostrarQuadros =  "%d" +i+1+"\n%s"+ quadros.get(i).getTitulo();
+           
+        }
+        	}
+        else {
+        	
+             mostrarQuadros = "Não existem quadros.";
+        	}
+        return mostrarQuadros;
+}
+  
+   
+   
+   
+   public ArrayList<Lista>getTarefasCadastradas(){
         return usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefas();
     }
     
@@ -169,6 +247,7 @@ public class Processos {
     public void moverCartao(int lista, int cartao){
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().moverCartao(lista, cartao);
 }
+    
 }
 
 

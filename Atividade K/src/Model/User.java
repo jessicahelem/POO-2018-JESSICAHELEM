@@ -23,8 +23,8 @@ public class User {
     }
     
     
-    public void cadastrarNovoQuadro(String titulo){
-        Quadro quadro = new Quadro(titulo);
+    public void cadastrarNovoQuadro(String titulo,boolean privacidade){
+        Quadro quadro = new Quadro(titulo,privacidade);
         this.quadros.add(quadro);
     }
     
