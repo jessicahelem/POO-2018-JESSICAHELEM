@@ -4,15 +4,24 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+
+import App.appTrello;
+import Model.User;
+import Negocios.Processos;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class ViewCadastrar {
+public class ViewCadastrar  extends JFrame {
 
-	private JFrame frmTrelloapp;
+	JFrame frmTrelloapp;
 	private JTextField txtLogin;
 	private JTextField txtNome;
 	private JTextField txtSenha;
@@ -79,6 +88,33 @@ public class ViewCadastrar {
 		txtSenha.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Criar Nova Conta");
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				String nome= txtNome.getText();
+				String idLogin= txtLogin.getText();
+				String senha= txtSenha.getText();
+				//User c = new User(nome,idLogin,senha);
+				Processos.cadastrarUsuario(new User(nome,idLogin,senha));
+				
+				
+				if(nome.isEmpty() || idLogin.isEmpty() || senha.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Campo Vazio, preencha!");
+					new ViewCadastrar().frmTrelloapp.setVisible(true);
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+					new ViewLogin().frmTrelloapp.setVisible(true);
+					dispose();
+				}
+				txtNome.setText("");
+				txtLogin.setText(" ");
+				txtSenha.setText(" ");
+				
+				
+			
+		}});
+		
 		btnNewButton.setBounds(120, 247, 246, 26);
 		frmTrelloapp.getContentPane().add(btnNewButton);
 		
@@ -95,5 +131,7 @@ public class ViewCadastrar {
 		lblUsurio.setBounds(120, 128, 46, 14);
 		frmTrelloapp.getContentPane().add(lblUsurio);
 	}
+
+	
 
 }

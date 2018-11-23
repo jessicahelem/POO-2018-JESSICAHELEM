@@ -58,6 +58,7 @@ public class MenuView {
 		JButton btnLogin = new JButton("Fazer Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ViewLogin().frmTrelloapp.setVisible(true);
 			}
 		});
 		btnLogin.setBounds(144, 99, 197, 31);
@@ -66,6 +67,8 @@ public class MenuView {
 		JButton btnCadastrar = new JButton("Cadastrar Usu\u00E1rio");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ViewCadastrar().frmTrelloapp.setVisible(true);
+
 			}
 		});
 		btnCadastrar.setBounds(144, 163, 197, 31);

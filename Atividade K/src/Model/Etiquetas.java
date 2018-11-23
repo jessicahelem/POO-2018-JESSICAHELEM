@@ -1,7 +1,7 @@
 package Model;
 
 public class Etiquetas {
-	private String titulo;
+    private String titulo;
     private String cor;
     
     public Etiquetas(String titulo, String cor){
@@ -30,5 +30,3 @@ public class Etiquetas {
     }
     
 }
-
-

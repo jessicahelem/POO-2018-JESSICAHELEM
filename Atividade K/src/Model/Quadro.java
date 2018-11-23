@@ -7,14 +7,12 @@ public class Quadro {
 
 	public String titulo;
 	private ArrayList<Lista> tarefas = new ArrayList<>();
-	private int tarefaSelecionada;
-	private boolean privado = true;
-	private boolean favorito = false;
+	public int tarefaSelecionada;
 	
-	public Quadro(String titulo,boolean privado){
+
+	public Quadro(String titulo){
 		this.titulo = titulo;
-		this.privado=privado;
-		this.favorito=favorito;
+		
 	}
 
 
@@ -27,12 +25,7 @@ public class Quadro {
 		return tarefas;
 	}
 
-	public void alterarPrivacidade() {
-		this.privado=false;
-	}
-	public void alterarFavorito() {
-		this.favorito=true;
-	}
+
 	public Lista getTarefaSelecionada(){
 		return tarefas.get(tarefaSelecionada);
 	}
@@ -58,11 +51,8 @@ public class Quadro {
 
 
 	public void moverCartao(int tarefa, int cartao){
-		Card c = tarefas.get(tarefaSelecionada).getCartaoPorIndiceEDeletar(cartao);
-		tarefas.get(tarefa).cadastrarCartao(c);
+		Card card = tarefas.get(tarefaSelecionada).getCartaoPorIndiceEDeletar(cartao);
+		tarefas.get(tarefa).cadastrarCartao(card);
 	}
 
-		
-	}
-
-
+}

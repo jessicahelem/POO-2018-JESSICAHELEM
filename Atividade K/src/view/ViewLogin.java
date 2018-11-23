@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.EventQueue;
-
+import Negocios.Processos; 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -15,11 +15,14 @@ import javax.swing.JPasswordField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class ViewLogin {
+import App.appTrello;
 
-	private JFrame frame;
-	private JTextField textLogin;
-	private JPasswordField txtSenha;
+public class ViewLogin  extends JFrame {
+
+
+	JFrame frmTrelloapp;
+	private JTextField txtLogin;
+	private JTextField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -29,7 +32,7 @@ public class ViewLogin {
 			public void run() {
 				try {
 					ViewLogin window = new ViewLogin();
-					window.frame.setVisible(true);
+					window.frmTrelloapp.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,30 +51,32 @@ public class ViewLogin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(245, 255, 250));
-		frame.setBackground(Color.WHITE);
-		frame.setBounds(100, 100, 502, 347);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmTrelloapp = new JFrame();
+		frmTrelloapp.getContentPane().setBackground(new Color(245, 255, 250));
+		frmTrelloapp.setBackground(Color.WHITE);
+		frmTrelloapp.setBounds(100, 100, 502, 347);
+		frmTrelloapp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTrelloapp.getContentPane().setLayout(null);
 		
-		textLogin = new JTextField();
-		textLogin.setBounds(126, 113, 233, 24);
-		frame.getContentPane().add(textLogin);
-		textLogin.setColumns(10);
+		txtLogin = new JTextField();
+		txtLogin.setBounds(126, 113, 233, 24);
+		frmTrelloapp.getContentPane().add(txtLogin);
+		txtLogin.setColumns(10);
 		
 		JLabel lblNome = new JLabel("Login");
 		lblNome.setBounds(126, 88, 46, 14);
-		frame.getContentPane().add(lblNome);
+		frmTrelloapp.getContentPane().add(lblNome);
 		
 		JButton btnLogin = new JButton("Entrar");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(checkLogin(textLogin.getText(), new String(txtSenha.getPassword()))) {
+				String nome = lblNome.getText();
+				String senha = txtSenha.getText();
+				if(Processos.login(nome,senha)) {
 					
-					JOptionPane.showMessageDialog(null, "Bem Vindo ao TrelloApp!", "TrelloApp",1);
-					
+					//JOptionPane.showMessageDialog(null, "Bem Vindo ao TrelloApp!", "TrelloApp",1);
+					new ViewLogin().frmTrelloapp.setVisible(true);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Dados Inválidos!", "TrelloApp",JOptionPane.WARNING_MESSAGE);
@@ -79,25 +84,22 @@ public class ViewLogin {
 			}
 		});
 		btnLogin.setBounds(198, 228, 89, 30);
-		frame.getContentPane().add(btnLogin);
+		frmTrelloapp.getContentPane().add(btnLogin);
 		
 		JLabel lblSenha = new JLabel("Senha");
 		lblSenha.setBounds(126, 144, 46, 14);
-		frame.getContentPane().add(lblSenha);
+		frmTrelloapp.getContentPane().add(lblSenha);
 		
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(126, 169, 233, 24);
-		frame.getContentPane().add(txtSenha);
+		frmTrelloapp.getContentPane().add(txtSenha);
 		
 		JLabel lblFazerLoginNo = new JLabel("Fazer Login no TrelloAPP");
 		lblFazerLoginNo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFazerLoginNo.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 18));
 		lblFazerLoginNo.setBounds(126, 28, 233, 24);
-		frame.getContentPane().add(lblFazerLoginNo);
+		frmTrelloapp.getContentPane().add(lblFazerLoginNo);
 	}
 	
-	public boolean checkLogin(String login, String senha) {
-		return login.equals("usuario")&& senha.equals("senha");
-		
-	}
+	
 }

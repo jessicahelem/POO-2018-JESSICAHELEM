@@ -4,32 +4,24 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import java.util.ArrayList;
 import Model.User;
 import Model.Quadro;
 import Model.Lista;
 import Model.Card;
 import Model.Comentario;
 import Model.Etiquetas;
-
-import Model.Card;
-import Model.Lista;
+import Model.Log;
 
 public class Processos {
-	  /* Variaveis */
-	public Quadro quadro;
-	public ArrayList<Quadro> quadros = new ArrayList();
-    private ArrayList<User> usuarios = new ArrayList<>();
-    private int usuarioSelecionado = 0;
-   public boolean statusLogar = false;
+    public  boolean logadoStatus= false;
+	private ArrayList<User> usuarios = new ArrayList<>();
+    private ArrayList<Log> logs = new ArrayList<>();
+    private  ArrayList<Quadro> quadros = new ArrayList<>();
+    public ArrayList<Card> cards = new ArrayList<>();
+    public int usuarioSelecionado = 0;
+    public int posicao=0;
     
-    public Quadro getQuadro(String nome) {
-    	for(int i = 0; i < quadros.size();i++)
-			if(quadros.get(i).titulo.equals(nome))
-				return quadros.get(i);
-		
-			return null;
-    }
+    //METODOS DE NEGOCIO PARA GERENCIAR O USER.
     public boolean cadastrarUsuario(String nome, String login, String senha){
         if (nome.trim().length() == 0 || login.trim().length() == 0 || senha.trim().length() == 0) {
             return false;
@@ -47,68 +39,19 @@ public class Processos {
         this.usuarioSelecionado = indice;
         return true;
     }
-    public String menu1() {
-    	if (!statusLogar) {
-	return "SEJA BEM VINDO - TRELLO \n"
-           	 + "1 - Login\n"
-             + "2 - Cadastrar Usuario\n"
-             + "3 - Logoff";}
-		return null;
-		
-    	
-    }
-    public String menu2() {
-    	
-		return "OPÇÕES PARA QUADROS \n"
-           	 + "1 - Cadastrar Nova Lista/Tarefa\n"
-             + "2 - Meus Quadros - Listar Quadros\n"
-             + "3 - Selecionar um Quadro\n"
-             + "0 - Finalizar";
-    }
-    public String menu3() {
-    	
-		return "OPÇÕES PARA LISTA/TAREFA \n"
-                 + "1 -  Adicionar uma Lista/Tarefa \n"
-                 + "2 -  Mostrar Minhas Listas/Tarefas\n"      
-                 + "3 -  Selecionar uma Lista/Tarefa \n"
-                 + "0 - Finalizar";
-                  
-        
-    }
-    public String menu4() {
-    	return "OPÇÕES PARA CARDS \n"
-                 + "1 -  Adicionar Card\n"
-                 + "2 -  Listar Cards\n"      
-                 + "3 -  Selecionar Cards\n"
-                 + "0 - Finalizar";
-    }
-    public String menu5() {
-    	return "OPÇÕES PARA UM CARD \n"
-                + "1 - Adicionar descrição ao card\n"
-                + "2 - Adicionar data de entrega ao cartao\n"
-                + "3 - Adicionar comentario ao cartao\n"
-                + "4 - Adicionar etiqueta ao cartao\n"
-                + "5 - Mover Card para outra Lista/Tarefa\n"
-                + "0 - Finalizar";
-    }
-    public void listarQuadros(Processos processo ){
-     
-      for (int i = 0; i < processo.quadros.size(); i++){
-            JOptionPane.showInputDialog(null,"%d -"+ i+1 + "\n%s"+ processo.quadros.get(i).getTitulo());
-        }
-    }
-
-    public boolean login(String login, String senha){
+    
+    
+    public boolean login(String idLogin, String senha){
         for (int i = 0; i < usuarios.size(); i++){
-            if (usuarios.get(i).login(login, senha)){
+            if (usuarios.get(i).login(idLogin, senha)){
                 selecionarUsuario(i);
                 return true;
             }
         }
         return false;
     }
-  
-   
+
+    
     public ArrayList<User> getUsuariosCadastrados() {
         return usuarios;
     }
@@ -119,13 +62,14 @@ public class Processos {
     }
     
     
-    public boolean cadastrarQuadro(String titulo,boolean privacidade){
-        if (titulo.trim().length() == 0){
-            return false;
-        }
-        Quadro quadro = new Quadro(titulo,privacidade);
-        usuarios.get(usuarioSelecionado).cadastrarNovoQuadro(quadro);
-        return true;
+    public void cadastrarQuadro(String titulo){
+        
+        
+        usuarios.get(usuarioSelecionado).quadros.add((new Quadro(titulo)));
+        
+       String log = " >> O quadro" + titulo + "foi adicionado";
+        gerarLog(log);
+        
     }
     
     
@@ -144,8 +88,14 @@ public class Processos {
     }
     
     
-    public boolean selecionarQuadro(int indice){
-        return usuarios.get(usuarioSelecionado).alternarQuadro(indice);        
+    public Quadro selecionarQuadro(String titulo){
+    	for(int i = 0; i < this.quadros.size();i++) {
+			if(this.quadros.get(i).titulo.equals(titulo)) 
+				return this.quadros.get(i);
+		}
+		
+    	return null;
+    	
     }
     
     
@@ -155,28 +105,13 @@ public class Processos {
         }
         Lista lista = new Lista(titulo);
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().cadastrarTarefa(lista);
+        String log = ">> A tarefa " + titulo+ " foi adicionada";
+        gerarLog(log);
         return true;
     }
-   public String listarQuadros(){
-        
-        String mostrarQuadros = "";
-        if (!quadros.isEmpty()){
-        	for (int i = 0; i < quadros.size(); i++){
-                mostrarQuadros =  "%d" +i+1+"\n%s"+ quadros.get(i).getTitulo();
-           
-        }
-        	}
-        else {
-        	
-             mostrarQuadros = "Não existem quadros.";
-        	}
-        return mostrarQuadros;
-}
-  
-   
-   
-   
-   public ArrayList<Lista>getTarefasCadastradas(){
+    
+    
+    public ArrayList<Lista> getTarefasCadastradas(){
         return usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefas();
     }
     
@@ -192,6 +127,8 @@ public class Processos {
         }
         Card card = new Card(titulo);
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().cadastrarCartao(card);
+        String log = ">> O cartão " + titulo + "foi adicionado";
+        gerarLog(log);
         return true;
     }
     
@@ -206,23 +143,22 @@ public class Processos {
     }
     
     
+    public void moverCartao(int tarefa, int cartao){
+        usuarios.get(usuarioSelecionado).getQuadroSelecionado().moverCartao(tarefa, cartao);
+        String log = ">> O Card " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo() + "foi movido";
+        gerarLog(log);
+    }
+    
     public boolean adicionarDescricaoAoCartao(String descricao){
         if (descricao.trim().length() == 0){
             return false;
         }
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarDescricao(descricao);
+        String log = ">> A descricao <\n" + descricao + 
+                ">foi adicioana no card: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+        gerarLog(log);
         return true;
     }
-    
-    
-    public boolean adicionarDataParaEntregaDoCartao(String data){
-        if (data.trim().length() == 0){
-            return false;
-        }
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarDataParaEntrega(data);
-        return true;
-    }
-    
     
     public boolean adicionarComentarioAoCartao(String comentario){
         if (comentario.trim().length() == 0){
@@ -230,24 +166,140 @@ public class Processos {
         }
         Comentario c = new Comentario(usuarios.get(usuarioSelecionado), comentario);
         usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarComentario(c);
+        String log = " >> O Comentario adicionado: \n" + comentario + 
+                "adicioana ao cartao: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+        gerarLog(log);
         return true;
     }
+    
     
     
     public boolean adicionarEtiquetaAoCartao(String titulo, String cor){
-        if (cor.trim().length() == 0 || titulo.trim().length() == 0){
-            return false;
-        }
-        Etiquetas etiqueta = new Etiquetas(titulo, cor);
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarEtiqueta(etiqueta);
-        return true;
+    	if (cor.trim().length() == 0 || titulo.trim().length() == 0){
+    		return false;
+    	}
+    	Etiquetas etiqueta = new Etiquetas(titulo, cor);
+    	usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarEtiqueta(etiqueta);
+    	String log = "Nova etiqueta adicionada: \n" + titulo + 
+    			"adicioana ao cartao: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+    	gerarLog(log);
+    	return true;
     }
     
-    
-    public void moverCartao(int lista, int cartao){
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().moverCartao(lista, cartao);
+    private void gerarLog(String descricao){
+        Log log = new Log(descricao);
+        this.logs.add(log);
+    }
+    public String listarTarefas(){
+        ArrayList<Lista> tarefas = getTarefasCadastradas();
+        if (tarefas.isEmpty()){
+             return "Nenhum registro localizado!";
+        }
+        for (int i = 0; i < tarefas.size(); i++){
+            return i+1 + "-"+ tarefas.get(i).getTitulo();
+        }
+		return null;
 }
+    public ArrayList<Log> getLog(){
+        return logs;
+    }
+    public String menu1() {
+    	return     "SEJA BEM VINDO - TRELLAR \n"
+           	 + "1 - Login\n" //se clicar nessa opçao vem o formaulario de LOGIN.
+             + "2 - Cadastrar Usuario\n" //se clicar nessa opçao vem o formaulario de cadastro.
+             + "0 - Finalizar"; //sai.;
+    }
+    public String menu2() {
+    	return  "  1 -  Criar Novo Quadro\n" //se clicar nessa opçao vem o formaulario NOVO QUADRO.
+                + "2 -  Meus Quadros - Listar Quadros\n" //tela com a lista.
+                + "3 -  Selecionar Quadro\n"
+                + "0 -  Voltar";
+    }
+    public String menu3() {
+    	return "   1 - Cadastrar tarefa\n" //se clicar nessa opçao vem o formaulario NOVO cadastrar tarefa.
+    			+ "2 -  Listar tarefas\n" // listas tarefas. 
+        		+ "3 -  Selecionar tarefa\n"
+        		+ "0 -  Voltar";
+    }
+    public String menu4() {
+    	return "   1 -  Adicionar Card\n"
+                + "2 -  Listar Cards\n"      
+                + "3 -  Selecionar Cards\n"
+                + "0 -  Voltar";
+    }
+    public String menu5() {
+    	  return  "1 - Adicionar descrição ao card\n"
+                + "2 - Adicionar comentario ao cartao\n"
+                + "3 - Adicionar etiqueta ao cartao\n"
+                + "4 - Alternar cartao para outra tarefa\n"
+                + "0 - Voltar";
+    }
     
-}
+   
+       
+            
+       
+    
+    
+    public void logoff(){
+        setLogadoStatus(false);
+        selecionarUsuario(0);
+    }
 
 
+	public boolean isLogadoStatus() {
+		return logadoStatus;
+	}
+
+
+	public boolean setLogadoStatus(boolean logadoStatus) {
+		return this.logadoStatus = logadoStatus;
+	}
+
+	public String listarQuadros(){
+		//ArrayList<Quadro> quadros = getQuadrosCadastrados();
+		String quadros = "";
+		
+			for (int i = 0; i < this.quadros.size();i++){
+				quadros= ">> "+i+1+" Quadro: "+  this.quadros.get(i).titulo;
+			}
+			return quadros; 
+		
+	}
+
+	public void listagemCompletaDeCartoes(){
+	
+		if (cards.isEmpty()){
+			   JOptionPane.showMessageDialog(null,"Não há Cards!");
+			        }
+			        for (int i = 0; i < cards.size(); i++){ 
+			        	JOptionPane.showMessageDialog(null," Card"+ i+1);
+			        	JOptionPane.showMessageDialog(null,">> Titulo - \n"+ cards.get(i).getTitulo());
+			        	JOptionPane.showMessageDialog(null,">> Descricao - \n"+cards.get(i).getDescricao());
+			            
+			        	JOptionPane.showMessageDialog(null,"  > Comentario(s) Feito(s): ");
+			            for (int j = 0; j < cards.get(i).getComentarios().size(); j++){
+			                System.out.printf("\t -"+ cards.get(i).getComentarios().get(j).getComentario()+" - \n"+cards.get(i).getComentarios().get(j).getDataHora());
+			            }
+			            
+			            JOptionPane.showMessageDialog(null,"  > Etiqueta(s) Aplicada(s): ");
+			            for (int j = 0; j < cards.get(i).getEtiquetas().size(); j++){
+			                JOptionPane.showMessageDialog(null,"\t - "+cards.get(i).getEtiquetas().get(j).getTitulo()+" - \n"+cards.get(i).getEtiquetas().get(j).getCor());
+			            }
+			}
+	
+	}
+
+	
+
+ 	
+}	
+
+
+	
+
+
+
+
+
+    

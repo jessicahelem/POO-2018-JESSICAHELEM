@@ -3,14 +3,13 @@ package Model;
 import java.util.ArrayList;
 
 public class User {
-    /* Variaveis */
     private String nome;
     private String login;
     private String senha;
-    private ArrayList<Quadro> quadros = new ArrayList<>();
+    public ArrayList<Quadro> quadros = new ArrayList<>();
     private int quadroSelecionado = 0;
+    public int posicao=0;
     
-    /* Contrutor */
     public User(String nome, String login, String senha){
         this.nome = nome;
         this.login = login;
@@ -20,14 +19,12 @@ public class User {
     
     public void cadastrarNovoQuadro(Quadro quadro){
         this.quadros.add(quadro);
+        posicao++;
+        
     }
     
     
-    public void cadastrarNovoQuadro(String titulo,boolean privacidade){
-        Quadro quadro = new Quadro(titulo,privacidade);
-        this.quadros.add(quadro);
-    }
-    
+   
     
     public ArrayList<Quadro> getQuadros(){
         return this.quadros;
@@ -60,5 +57,5 @@ public class User {
     
     public String getLogin() {
         return login;
-}
+    }
 }
