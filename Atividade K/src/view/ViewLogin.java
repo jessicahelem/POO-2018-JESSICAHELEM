@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.EventQueue;
-import Negocios.Processos; 
+import Negocios.Processo; 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -15,7 +15,7 @@ import javax.swing.JPasswordField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import App.appTrello;
+import App.Aplicacao;
 
 public class ViewLogin  extends JFrame {
 
@@ -73,7 +73,7 @@ public class ViewLogin  extends JFrame {
 				
 				String nome = lblNome.getText();
 				String senha = txtSenha.getText();
-				if(Processos.login(nome,senha)) {
+				if(Processo.login(nome,senha)) {
 					
 					//JOptionPane.showMessageDialog(null, "Bem Vindo ao TrelloApp!", "TrelloApp",1);
 					new ViewLogin().frmTrelloapp.setVisible(true);

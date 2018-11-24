@@ -1,5 +1,4 @@
 package Negocios;
-
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -12,70 +11,64 @@ import Model.Comentario;
 import Model.Etiquetas;
 import Model.Log;
 
-public class Processos {
-    public  boolean logadoStatus= false;
-	private ArrayList<User> usuarios = new ArrayList<>();
+public class Processo {
+	public  boolean logadoStatus= false;
+	private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Log> logs = new ArrayList<>();
     private  ArrayList<Quadro> quadros = new ArrayList<>();
     public ArrayList<Card> cards = new ArrayList<>();
-    public int usuarioSelecionado = 0;
+    public int idUserSelecionado = 0;
     public int posicao=0;
     
     //METODOS DE NEGOCIO PARA GERENCIAR O USER.
-    public boolean cadastrarUsuario(String nome, String login, String senha){
+    public boolean cadastrarUser(String nome, String login, String senha){
         if (nome.trim().length() == 0 || login.trim().length() == 0 || senha.trim().length() == 0) {
             return false;
         }
         User usuario = new User(nome, login, senha);
-        this.usuarios.add(usuario);
+        this.users.add(usuario);
         return true;
     }
-    
-    
-    public boolean selecionarUsuario(int indice){
-        if (indice < 0 || indice >= usuarios.size()){
-            return false;
-        }
-        this.usuarioSelecionado = indice;
-        return true;
-    }
-    
-    
     public boolean login(String idLogin, String senha){
-        for (int i = 0; i < usuarios.size(); i++){
-            if (usuarios.get(i).login(idLogin, senha)){
-                selecionarUsuario(i);
+        for (int i = 0; i < users.size(); i++){
+            if (users.get(i).login(idLogin, senha)){
+                selecionarUser(i);
                 return true;
             }
         }
         return false;
     }
-
+    
+    public boolean selecionarUser(int indiceUser){
+        if (indiceUser < 0 || indiceUser >= users.size()){
+            return false;
+        }
+        this.idUserSelecionado = indiceUser;
+        return true;
+    }
     
     public ArrayList<User> getUsuariosCadastrados() {
-        return usuarios;
+        return users;
     }
     
     
-    public User getUsuarioSelecionado(){
-        return this.usuarios.get(usuarioSelecionado);
+    public User getUserSelecionado(){
+        return this.users.get(idUserSelecionado);
     }
     
     
     public void cadastrarQuadro(String titulo){
+        users.get(idUserSelecionado).quadros.add((new Quadro(titulo)));
         
-        
-        usuarios.get(usuarioSelecionado).quadros.add((new Quadro(titulo)));
-        
-       String log = " >> O quadro" + titulo + "foi adicionado";
-        gerarLog(log);
+       String log = " >> O quadro " + titulo + " foi adicionado";
+        addLog(log);
         
     }
     
     
-    private int getIndiceDeUsuarioPorLogin(String login){
-        for (int i = 0; i < usuarios.size(); i++){
-            if (usuarios.get(i).getLogin().equals(login)){
+    private int getUserLogin(String login){
+        for (int i = 0; i < users.size(); i++){
+            if (users.get(i).getLogin().equals(login)){
                 return i;
             }
         }
@@ -84,7 +77,7 @@ public class Processos {
     
     
     public ArrayList<Quadro> getQuadrosCadastrados(){
-        return usuarios.get(usuarioSelecionado).getQuadros();
+        return users.get(idUserSelecionado).getQuadros();
     }
     
     
@@ -104,20 +97,20 @@ public class Processos {
             return false;
         }
         Lista lista = new Lista(titulo);
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().cadastrarTarefa(lista);
+        users.get(idUserSelecionado).getQuadroSelecionado().cadastrarTarefa(lista);
         String log = ">> A tarefa " + titulo+ " foi adicionada";
-        gerarLog(log);
+        addLog(log);
         return true;
     }
     
     
     public ArrayList<Lista> getTarefasCadastradas(){
-        return usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefas();
+        return users.get(idUserSelecionado).getQuadroSelecionado().getTarefas();
     }
     
     
     public boolean selecionarTarefa(int indice){
-        return usuarios.get(usuarioSelecionado).getQuadroSelecionado().alternarTarefa(indice);        
+        return users.get(idUserSelecionado).getQuadroSelecionado().alternarTarefa(indice);        
     }
     
     
@@ -126,67 +119,67 @@ public class Processos {
             return false;
         }
         Card card = new Card(titulo);
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().cadastrarCartao(card);
+        users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().cadastrarCartao(card);
         String log = ">> O cartão " + titulo + "foi adicionado";
-        gerarLog(log);
+        addLog(log);
         return true;
     }
     
     
-    public ArrayList<Card> getCartoesCadastrados(){
-        return usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartoes();
+    public ArrayList<Card> getCartoes(){
+        return users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartoes();
     }
     
     
     public boolean selecionarCartao(int indice){
-        return usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().alternarCartao(indice);        
+        return users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().alternarCartao(indice);        
     }
     
     
     public void moverCartao(int tarefa, int cartao){
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().moverCartao(tarefa, cartao);
-        String log = ">> O Card " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo() + "foi movido";
-        gerarLog(log);
+        users.get(idUserSelecionado).getQuadroSelecionado().moverCartao(tarefa, cartao);
+        String log = ">> O Card " + users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo() + "foi movido";
+        addLog(log);
     }
     
-    public boolean adicionarDescricaoAoCartao(String descricao){
+    public boolean adicionarDescricao(String descricao){
         if (descricao.trim().length() == 0){
             return false;
         }
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarDescricao(descricao);
+        users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarDescricao(descricao);
         String log = ">> A descricao <\n" + descricao + 
-                ">foi adicioana no card: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
-        gerarLog(log);
+                ">foi adicioana no card: " + users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+        addLog(log);
         return true;
     }
     
-    public boolean adicionarComentarioAoCartao(String comentario){
+    public boolean adicionarComentario(String comentario){
         if (comentario.trim().length() == 0){
             return false;
         }
-        Comentario c = new Comentario(usuarios.get(usuarioSelecionado), comentario);
-        usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarComentario(c);
+        Comentario comentario1 = new Comentario(users.get(idUserSelecionado), comentario);
+        users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarComentario(comentario1);
         String log = " >> O Comentario adicionado: \n" + comentario + 
-                "adicioana ao cartao: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
-        gerarLog(log);
+                "adicioana ao cartao: " + users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+        addLog(log);
         return true;
     }
     
     
     
-    public boolean adicionarEtiquetaAoCartao(String titulo, String cor){
+    public boolean adicionarEtiqueta(String titulo, String cor){
     	if (cor.trim().length() == 0 || titulo.trim().length() == 0){
     		return false;
     	}
     	Etiquetas etiqueta = new Etiquetas(titulo, cor);
-    	usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarEtiqueta(etiqueta);
+    	users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().adicionarEtiqueta(etiqueta);
     	String log = "Nova etiqueta adicionada: \n" + titulo + 
-    			"adicioana ao cartao: " + usuarios.get(usuarioSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
-    	gerarLog(log);
+    			"adicioana ao cartao: " + users.get(idUserSelecionado).getQuadroSelecionado().getTarefaSelecionada().getCartaoSelecionado().getTitulo();
+    	addLog(log);
     	return true;
     }
     
-    private void gerarLog(String descricao){
+    private void addLog(String descricao){
         Log log = new Log(descricao);
         this.logs.add(log);
     }
@@ -234,17 +227,7 @@ public class Processos {
                 + "4 - Alternar cartao para outra tarefa\n"
                 + "0 - Voltar";
     }
-    
-   
-       
-            
-       
-    
-    
-    public void logoff(){
-        setLogadoStatus(false);
-        selecionarUsuario(0);
-    }
+
 
 
 	public boolean isLogadoStatus() {
@@ -266,9 +249,13 @@ public class Processos {
 			return quadros; 
 		
 	}
-
-	public void listagemCompletaDeCartoes(){
 	
+    public void logoff(){
+        setLogadoStatus(false);
+        selecionarUser(0);
+    }
+
+	public void listagemListaCartoes(){
 		if (cards.isEmpty()){
 			   JOptionPane.showMessageDialog(null,"Não há Cards!");
 			        }
@@ -293,13 +280,4 @@ public class Processos {
 	
 
  	
-}	
-
-
-	
-
-
-
-
-
-    
+} 

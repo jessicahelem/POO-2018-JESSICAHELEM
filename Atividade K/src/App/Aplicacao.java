@@ -1,21 +1,13 @@
 package App;
-
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
-import Model.Card;
-import Model.Lista;
-import Model.Quadro;
-import Model.User;
-import Negocios.Processos;
+import Negocios.Processo;
 
-public class appTrello {
+public class Aplicacao {
 	
 	public static void main(String[] args) {
 		
-		Processos processo = new Processos();
+		Processo processo = new Processo();
 
 		int option1 = Integer.parseInt((JOptionPane.showInputDialog(processo.menu1())));
 		
@@ -72,8 +64,8 @@ public class appTrello {
 														 option4 = Integer.parseInt(JOptionPane.showInputDialog(processo.menu4()));
 														 
 													//listar card
-													case 2://erro
-														processo.listagemCompletaDeCartoes();
+													case 2:
+														processo.listagemListaCartoes();
 														 option4 = Integer.parseInt(JOptionPane.showInputDialog(processo.menu4()));
 													case 3:
 														
@@ -84,16 +76,16 @@ public class appTrello {
 																switch(option5) {
 																case 1:
 																	String descricao = JOptionPane.showInputDialog(null,"Descrição:");
-																	processo.adicionarDescricaoAoCartao(descricao);
+																	processo.adicionarDescricao(descricao);
 																	 option5 = Integer.parseInt(JOptionPane.showInputDialog(processo.menu5()));
 																case 2:
 																	String comentario = JOptionPane.showInputDialog(null,"Cometário:");
-																	processo.adicionarComentarioAoCartao(comentario);
+																	processo.adicionarComentario(comentario);
 																	 option5 = Integer.parseInt(JOptionPane.showInputDialog(processo.menu5()));
 																case 3:
 																	String titulo = JOptionPane.showInputDialog(null,"Etiqueta: ");
 																	String cor = JOptionPane.showInputDialog(null,"Cor: ");
-																	processo.adicionarEtiquetaAoCartao(titulo, cor);
+																	processo.adicionarEtiqueta(titulo, cor);
 																case 4:
 																	int op1 =  Integer.parseInt(JOptionPane.showInputDialog(null,"Opção:"));
 																	processo.selecionarTarefa(op1);
@@ -131,7 +123,7 @@ public class appTrello {
 				String nome1 = JOptionPane.showInputDialog(null,"Nome: ");
 				String usuario1=JOptionPane.showInputDialog(null,"Usuário: ");
 				String senha1= JOptionPane.showInputDialog(null,"Senha: ");
-				if (processo.cadastrarUsuario(nome1, usuario1, senha1)){
+				if (processo.cadastrarUser(nome1, usuario1, senha1)){
 					JOptionPane.showMessageDialog(null, nome1 + " Você foi cadastrado(a)!");
 					
 					option1 = Integer.parseInt((JOptionPane.showInputDialog(processo.menu1())));

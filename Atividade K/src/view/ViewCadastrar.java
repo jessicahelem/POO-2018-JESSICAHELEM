@@ -7,9 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
-import App.appTrello;
+import App.Aplicacao;
 import Model.User;
-import Negocios.Processos;
+import Negocios.Processo;
+
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -95,7 +96,7 @@ public class ViewCadastrar  extends JFrame {
 				String idLogin= txtLogin.getText();
 				String senha= txtSenha.getText();
 				//User c = new User(nome,idLogin,senha);
-				Processos.cadastrarUsuario(new User(nome,idLogin,senha));
+				processo.cadastrarUser();
 				
 				
 				if(nome.isEmpty() || idLogin.isEmpty() || senha.isEmpty()) {
