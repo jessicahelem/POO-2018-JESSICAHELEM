@@ -15,7 +15,7 @@ public class Processo {
 	public  boolean logadoStatus= false;
 	private ArrayList<User> users = new ArrayList<>();
     private ArrayList<Log> logs = new ArrayList<>();
-    private  ArrayList<Quadro> quadros = new ArrayList<>();
+    private  ArrayList<Quadro> listaQuadros = new ArrayList<>();
     public ArrayList<Card> cards = new ArrayList<>();
     public int idUserSelecionado = 0;
     public int posicao=0;
@@ -58,7 +58,8 @@ public class Processo {
     
     
     public void cadastrarQuadro(String titulo){
-        users.get(idUserSelecionado).quadros.add((new Quadro(titulo)));
+    	//this.listaQuadros.add(new Quadro(titulo));
+    	this.listaQuadros.add((new Quadro(titulo)));
         
        String log = " >> O quadro " + titulo + " foi adicionado";
         addLog(log);
@@ -82,9 +83,9 @@ public class Processo {
     
     
     public Quadro selecionarQuadro(String titulo){
-    	for(int i = 0; i < this.quadros.size();i++) {
-			if(this.quadros.get(i).titulo.equals(titulo)) 
-				return this.quadros.get(i);
+    	for(int i = 0; i < this.listaQuadros.size();i++) {
+			if(this.listaQuadros.get(i).titulo.equals(titulo)) 
+				return this.listaQuadros.get(i);
 		}
 		
     	return null;
@@ -184,15 +185,19 @@ public class Processo {
         this.logs.add(log);
     }
     public String listarTarefas(){
-        ArrayList<Lista> tarefas = getTarefasCadastradas();
-        if (tarefas.isEmpty()){
-             return "Nenhum registro localizado!";
+        ArrayList<Lista> listaTarefas = getTarefasCadastradas();
+        String tarefas = "";
+
+        for (Lista i:listaTarefas){
+        	if(!listaTarefas.isEmpty())
+        		tarefas+=i;
+            	return  tarefas;
         }
-        for (int i = 0; i < tarefas.size(); i++){
-            return i+1 + "-"+ tarefas.get(i).getTitulo();
-        }
-		return null;
-}
+        
+            return "Nenhum registro localizado!";
+       }
+		
+
     public ArrayList<Log> getLog(){
         return logs;
     }
@@ -240,16 +245,21 @@ public class Processo {
 	}
 
 	public String listarQuadros(){
-		//ArrayList<Quadro> quadros = getQuadrosCadastrados();
-		String quadros = "";
 		
-			for (int i = 0; i < this.quadros.size();i++){
-				quadros= ">> "+i+1+" Quadro: "+  this.quadros.get(i).titulo;
-			}
-			return quadros; 
-		
+		 String quadros = "";
+		 if(!listaQuadros.isEmpty()) {
+	        for (int i = 0;i<listaQuadros.size();i++){
+	        	
+	        		quadros+=listaQuadros.get(i)+"\n";
+	            	return quadros= "Quadro : "+listaQuadros.get(i).getTitulo();
+	        }
+	        
+	            
+	       }else {
+	    	   return quadros = "Não existe nenhum quadro!";
+	       }
+		 return quadros;
 	}
-	
     public void logoff(){
         setLogadoStatus(false);
         selecionarUser(0);

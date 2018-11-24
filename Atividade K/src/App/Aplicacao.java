@@ -1,6 +1,8 @@
 package App;
 import javax.swing.JOptionPane;
 
+import Model.Quadro;
+import Model.User;
 import Negocios.Processo;
 
 public class Aplicacao {
@@ -24,6 +26,7 @@ public class Aplicacao {
 						case 1:
 							String tituloDoQuadro= JOptionPane.showInputDialog(null,"Insira um nome para seu quadro: ");
 							processo.cadastrarQuadro(tituloDoQuadro);
+							
 							JOptionPane.showMessageDialog(null,"Quadro criado com sucesso!");
 							option2 = Integer.parseInt((JOptionPane.showInputDialog(processo.menu2())));
 						case 2:
