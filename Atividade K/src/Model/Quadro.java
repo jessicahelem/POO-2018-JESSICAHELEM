@@ -54,5 +54,6 @@ public class Quadro {
 		Card card = tarefas.get(tarefaSelecionada).getCartaoPorIndiceEDeletar(cartao);
 		tarefas.get(tarefa).cadastrarCartao(card);
 	}
+	
 
 }

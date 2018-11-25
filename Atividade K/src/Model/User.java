@@ -18,10 +18,11 @@ public class User {
     
     
     public void cadastrarNovoQuadro(Quadro quadro){
-        this.quadros.add(quadro);
+        quadros.add(quadro);
         posicao++;
         
     }
+   
     
     
    
